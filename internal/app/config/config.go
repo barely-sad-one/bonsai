@@ -21,7 +21,7 @@ func InitConfig(optionalPath ...string) {
 	var path string
 	switch len(optionalPath) {
 	case 0:
-	path = filepath.Join("configs", "server.json")
+		path = filepath.Join("configs", "server.json")
 	case 1:
 		path = optionalPath[0]
 	default:
