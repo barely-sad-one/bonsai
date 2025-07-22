@@ -1,0 +1,22 @@
+basePath: /api
+host: localhost:8080
+info:
+  contact: {}
+  description: Backend service for Bonsai
+  title: Bonsai API
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      description: Simple health check endpoint
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: pong
+          schema:
+            type: string
+      summary: Ping the Server
+      tags:
+      - Health
+swagger: "2.0"

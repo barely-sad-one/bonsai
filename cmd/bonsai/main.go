@@ -1,3 +1,8 @@
+// @title           Bonsai API
+// @version         1.0
+// @description     Backend service for Bonsai
+// @host            localhost:8080
+// @BasePath        /api
 package main
 
 import (
