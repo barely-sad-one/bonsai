@@ -5,13 +5,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
 type Config struct {
-	Host						 string `json:"host"`
-	Port             string `json:"port"`
-	Mode           	 string `json:"mode"`
 	TrustedProxies []string `json:"trusted_proxies"`
 }
 
@@ -39,14 +35,4 @@ func InitConfig(optionalPath ...string) {
 	if err := decoder.Decode(AppConfig); err != nil {
 		panic(fmt.Sprintf("Implement Me: %v\n", err))
 	}
-}
-
-func (e *Config) Address() string {
-	var sb strings.Builder
-
-	sb.WriteString(e.Host)
-	sb.WriteString(":")
-	sb.WriteString(e.Port)
-
-	return sb.String()
 }

@@ -1,15 +1,24 @@
 BINARY_NAME := bonsai
-# Build output directory
 BUILD_DIR := build
 
-.PHONY: all build clean cache
+DEBUG_FLAGS := -gcflags "all=-N -l"
+RELEASE_FLAGS := -ldflags "-s -w"
 
-all: build
+.PHONY: all build debug release clean cache
 
-build:
-	@echo ">> Building the binary..."
+all: release
+
+build: release
+
+debug:
+	@echo ">> Building debug binary with GIN_MODE=debug..."
 	@mkdir -p $(BUILD_DIR)
-	@go build -o $(BUILD_DIR)/$(BINARY_NAME) ./cmd/bonsai/main.go
+	@GIN_MODE=debug go build $(DEBUG_FLAGS) -o $(BUILD_DIR)/$(BINARY_NAME)_debug ./cmd/bonsai/main.go
+
+release:
+	@echo ">> Building release binary with GIN_MODE=release..."
+	@mkdir -p $(BUILD_DIR)
+	@GIN_MODE=release go build $(RELEASE_FLAGS) -o $(BUILD_DIR)/$(BINARY_NAME) ./cmd/bonsai/main.go
 
 clean:
 	@echo ">> Cleaning build artifacts..."
@@ -18,3 +27,4 @@ clean:
 cache:
 	@echo ">> Cleaning Go build cache..."
 	@go clean -cache -modcache -testcache -fuzzcache
+

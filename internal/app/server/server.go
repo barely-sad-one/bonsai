@@ -1,7 +1,6 @@
 package server
 
 import (
-	"github.com/barely-sad-one/bonsai/internal/app/config"
 	"github.com/barely-sad-one/bonsai/internal/app/routes"
 	"github.com/gin-gonic/gin"
 )
@@ -14,8 +13,7 @@ type Server struct {
 func InitServer() *Server{
 	var app *Server = &Server{}
 
-	gin.SetMode(config.AppConfig.Mode)
-	app.Router = gin.New()
+	app.Router = gin.Default()
 
 	routes.SetupRoutes(app.Router)
 	return app
