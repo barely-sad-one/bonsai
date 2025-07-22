@@ -4,17 +4,28 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sync"
 	"path/filepath"
 )
 
 type Config struct {
+	ServerConfig
+}
+
+type ServerConfig struct {
 	TrustedProxies []string `json:"trusted_proxies"`
 }
 
-var AppConfig *Config
+var (
+	AppConfig *Config
+	once sync.Once
+)
 
 func InitConfig(optionalPath ...string) {
 	var path string
+	once.Do(func() {
+		AppConfig = &Config{}
+	})
 	switch len(optionalPath) {
 	case 0:
 		path = filepath.Join("configs", "server.json")
@@ -31,8 +42,28 @@ func InitConfig(optionalPath ...string) {
 	defer file.Close()
 
 	decoder := json.NewDecoder(file)
-	AppConfig = &Config{}
-	if err := decoder.Decode(AppConfig); err != nil {
+	if err := decoder.Decode(&AppConfig.ServerConfig); err != nil {
 		panic(fmt.Sprintf("Implement Me: %v\n", err))
 	}
+}
+
+func DatabaseConnectionString() string {
+	host := os.Getenv("DB_HOST")
+	port := os.Getenv("DB_PORT")
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DB_NAME")
+	sslmode := os.Getenv("DB_SSLMODE")
+	timezone := os.Getenv("DB_TIMEZONE")
+
+	return fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
+		host,
+		port,
+		user,
+		password,
+		dbname,
+		sslmode,
+		timezone,
+	)
 }
