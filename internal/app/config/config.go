@@ -59,10 +59,10 @@ func DatabaseConnectionString() string {
 	return fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
 		host,
-		port,
 		user,
 		password,
 		dbname,
+		port,
 		sslmode,
 		timezone,
 	)
