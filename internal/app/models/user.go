@@ -1,9 +1,18 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"gorm.io/datatypes"
+	"github.com/google/uuid"
+	"time"
+)
 
-type User struct {
+type Users struct {
 	gorm.Model
-	Name string
-	Email string `gorm:"uniqueIndex"`
+	ID       	 uuid.UUID 				  `gorm:"type:uuid;default:uuid_generate_v4();primaryKey"`
+	Email    	 string             `gorm:"uniqueIndex"`
+	Password   string                        
+	Name       string                        
+	attributes datatypes.JSONMap             
+	createdAt  time.Time                     
 }
